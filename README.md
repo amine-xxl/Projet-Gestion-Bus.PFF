@@ -1,5 +1,7 @@
 # Getting Started with Create React App
 
+This project is made by Mohammed-Amine Rhazi and Mehdi Semlali as a final year project PFF ( Projet Fin Formation ).
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
