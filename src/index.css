@@ -1,12 +1,13 @@
 /* La base des links */
 .nav-link {
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 500;
     position: relative;
     color: #000;
+    transition: color 0.2s;
 }
 
-/* Animation de sous-ligne */
+/* Underline animation — grows from left on hover */
 .nav-link::after {
     content: "";
     position: absolute;
@@ -15,25 +16,60 @@
     width: 0;
     height: 3px;
     background-color: #0056b3;
+    border-radius: 2px;
     transition: width 0.3s ease-in-out;
 }
 
-/* La ligne apparait sauf que le dropdown */
+/* Show underline on hover — but NOT on the dropdown toggle */
 .nav-link:not(.dropdown-toggle):hover::after {
     width: 100%;
 }
 
-/* Remove la ligne sous le link dropdown */
+/* Active page — blue text + full underline stays visible */
+.nav-link-active {
+    color: #0056b3 !important;
+}
+.nav-link-active::after {
+    width: 100% !important;
+}
+
+/* Remove Bootstrap's default dropdown caret line */
 .nav-link.dropdown-toggle::after {
     display: none;
 }
 
-/* Afficher dropdown on hover */
-.nav-item.dropdown:hover .dropdown-menu {
-    display: block;
-    margin-top: 4px;
+
+/* Desktop only: open dropdown on hover */
+@media (min-width: 992px) {
+    .nav-item.dropdown:hover .dropdown-menu {
+        display: block;
+        margin-top: 4px;
+        animation: fadeDown 0.18s ease;
+    }
 }
 
+/* Subtle fade-down animation for dropdown */
+@keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0);    }
+}
+
+/* Dropdown items */
+.dropdown-item {
+    font-size: 15px;
+    font-weight: 500;
+    transition: background 0.15s, color 0.15s;
+}
+.dropdown-item:hover {
+    background: rgba(0, 86, 179, 0.08);
+    color: #0056b3;
+}
+/* Highlight active dropdown item */
+.dropdown-item.active,
+.dropdown-item:active {
+    background: #0056b3;
+    color: #fff;
+}
 /* App background pour PC */
 .App {
     min-height: 100vh;
@@ -50,16 +86,25 @@
     }
 }
 
-/* Link de Footer a la base*/
+/* ============================================================
+   FOOTER
+   ============================================================ */
+
+.footer-root {
+    border-top: 1px solid rgba(0, 86, 179, 0.1);
+}
+
+/* ── Nav / text links ── */
 .footer-link {
-    color: #007bff;
+    color: #0056b3;
     text-decoration: none;
     position: relative;
     display: inline-block;
-    transition: color 0.3s ease;
+    transition: color 0.25s ease, transform 0.25s ease;
+    line-height: 1.8;   /* comfortable spacing between list items */
 }
 
-/* Sous-ligne lors de Hover */
+/* Underline grows from left on hover */
 .footer-link::after {
     content: "";
     position: absolute;
@@ -67,27 +112,468 @@
     bottom: -2px;
     width: 0%;
     height: 2px;
-    background-color: #007bff;
-    transition: width 0.3s ease;
+    background-color: #0056b3;
+    border-radius: 2px;
+    transition: width 0.25s ease;
+}
+
+.footer-link:hover {
+    color: #003d80;
+    transform: translateY(-2px);
 }
 
 .footer-link:hover::after {
     width: 100%;
 }
 
-/* Hover coleur et un petit lift */
-.footer-link:hover {
-    color: #0056b3;
-    transform: translateY(-2px);
-}
-
-/* Same pour les icons de Social */
+/* ── Social icon links ── */
 .social-link {
-    font-size: 1.4rem;
-    transition: transform 0.25s ease, color 0.25s ease;
+    color: #555;
+    font-size: 1.35rem;
+    display: inline-flex;
+    align-items: center;
+    transition: color 0.25s ease, transform 0.25s ease;
 }
 
 .social-link:hover {
-    transform: scale(1.3);
     color: #0056b3;
+    transform: scale(1.25) translateY(-2px);
+}
+/* ============================================================
+   HOME PAGE STYLES — Home Composnt Style
+   ============================================================ */
+
+/* ── SECTION 1: HERO ── */
+.home-hero {
+  min-height: 100vh;
+  padding-top: 100px;
+  padding-bottom: 60px;
+  background: transparent; /* arabesque from .App shows through */
+}
+
+.home-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.80);
+  backdrop-filter: blur(2px);
+}
+
+.home-badge {
+  background: rgba(0, 86, 179, 0.1);
+  border: 1px solid rgba(0, 86, 179, 0.25);
+  color: #0056b3;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 6px 18px;
+  border-radius: 100px;
+}
+
+.home-title {
+  font-size: clamp(2.8rem, 5vw, 4.5rem);
+  font-weight: 900;
+  color: #0a0f1e;
+  line-height: 1.1;
+}
+
+.btn-ctf-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #0056b3;
+  color: #fff;
+  text-decoration: none;
+  padding: 13px 28px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  box-shadow: 0 6px 20px rgba(0, 86, 179, 0.4);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.btn-ctf-primary:hover {
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(0, 86, 179, 0.5);
+}
+
+.btn-ctf-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1.5px solid rgba(0, 86, 179, 0.3);
+  color: #0056b3;
+  text-decoration: none;
+  padding: 13px 28px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: background 0.2s, transform 0.2s;
+}
+.btn-ctf-ghost:hover {
+  color: #0056b3;
+  background: rgba(255, 255, 255, 0.95);
+  transform: translateY(-2px);
+}
+
+.home-bus-img {
+  object-fit: cover;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.home-live-badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  border-radius: 100px;
+  padding: 6px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.home-green-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  display: inline-block;
+}
+
+.home-departure-pill {
+  position: absolute;
+  bottom: -20px;
+  left: 20px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 86, 179, 0.15);
+  border-radius: 16px;
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 6px 24px rgba(0, 86, 179, 0.1);
+}
+
+.home-departure-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: #0056b3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 18px;
+}
+
+/* ── SECTION 2: STATS ── */
+.home-stats {
+  background: rgba(0, 86, 179, 0.6);
+}
+
+.home-stat-number {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.home-stat-label {
+  font-size: 0.75rem;
+  opacity: 0.75;
+  margin-top: 4px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* ── SECTIONS 3-5: shared semi-transparent bg ── */
+.home-section {
+  background: rgba(248, 250, 255, 0.85);
+  backdrop-filter: blur(3px);
+}
+
+.home-section-label {
+  color: #0056b3;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-size: 11px;
+}
+
+.home-section-title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 900;
+  color: #0a0f1e;
+  line-height: 1.15;
+}
+
+.home-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #fff;
+  border: 1px solid #dde8f8;
+  border-radius: 100px;
+  padding: 7px 15px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #1e3a5f;
+  box-shadow: 0 2px 6px rgba(0, 86, 179, 0.07);
+}
+
+.home-float-card-white {
+  position: absolute;
+  top: 20px;
+  left: -20px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 12px 18px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.10);
+}
+
+.home-float-card-blue {
+  position: absolute;
+  bottom: 24px;
+  right: -16px;
+  background: #0056b3;
+  border-radius: 16px;
+  padding: 12px 18px;
+  box-shadow: 0 8px 28px rgba(0, 86, 179, 0.4);
+  color: #fff;
+}
+
+.home-float-number {
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+
+.home-float-label {
+  font-size: 11px;
+  opacity: 0.8;
+  font-weight: 500;
+}
+
+/* ── SECTION 4: VIDEO ── */
+.home-video-wrapper {
+  background: #000;
+  aspect-ratio: 16/9;
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.13);
+}
+
+.home-video-label {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+  border-radius: 100px;
+  padding: 5px 14px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.home-red-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ef4444;
+  display: inline-block;
+}
+
+.home-rating-panel {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(0, 86, 179, 0.1);
+  box-shadow: 0 6px 28px rgba(0, 86, 179, 0.07);
+}
+
+.home-big-score {
+  font-size: 3.6rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.home-review-card {
+  background: #f8faff;
+  border: 1px solid #e2ecfa;
+  border-radius: 14px;
+  padding: 11px 14px;
+}
+
+/* ── SECTION 5: FEATURE CARDS ── */
+.home-feature-card {
+  background: rgba(248, 250, 255, 0.9);
+  border: 1px solid #dde8f8;
+  border-radius: 22px;
+  padding: 30px 22px;
+  transition: all 0.25s;
+  cursor: default;
+}
+
+.home-feature-card--hovered {
+  background: #fff;
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(0, 86, 179, 0.12);
+}
+
+/* ── SECTION 6: CTA ZELLIGE ── */
+.home-cta {
+  padding: 110px 0;
+}
+
+/* Zellige image fills the whole section */
+.home-cta-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  z-index: 0;
+}
+
+.home-cta-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 2, 168, 0.82);
+  z-index: 1;
+}
+
+/* Moorish arch decorations */
+.home-arch {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 320px;
+  height: 120px;
+  border: 2px solid rgba(204, 251, 254, 0.4);
+  z-index: 2;
+}
+.home-arch--top {
+  top: 0;
+  border-top: none;
+  border-radius: 0 0 160px 160px;
+}
+.home-arch--bottom {
+  bottom: 0;
+  border-bottom: none;
+  border-radius: 160px 160px 0 0;
+}
+
+/* Corner diamonds */
+.home-diamond {
+  position: absolute;
+  width: 52px;
+  height: 52px;
+  border: 2px solid rgba(204, 251, 254, 0.4);
+  transform: rotate(45deg);
+  z-index: 2;
+}
+.home-diamond--tl { top: 18px;    left: 18px;  }
+.home-diamond--tr { top: 18px;    right: 18px; }
+.home-diamond--bl { bottom: 18px; left: 18px;  }
+.home-diamond--br { bottom: 18px; right: 18px; }
+
+/* CTA text */
+.home-cta-stars {
+  color: rgba(204, 251, 254, 0.7);
+  font-size: 20px;
+  letter-spacing: 10px;
+}
+
+.home-cta-subtitle {
+  color: #d97706;
+  font-family: 'Playfair Display', serif;
+  font-size: 13px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(204, 251, 254, 0.35);
+  padding-bottom: 7px;
+}
+
+.home-cta-title {
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  font-weight: 900;
+  color: #fef3c7;
+  line-height: 1.15;
+}
+
+.home-cta-em {
+  color: #f59e0b;
+  font-style: italic;
+}
+
+.home-cta-desc {
+  color: rgba(254, 243, 199, 0.72);
+  font-size: 1.05rem;
+  max-width: 480px;
+  line-height: 1.9;
+}
+
+.home-divider-line {
+  height: 1px;
+  width: 80px;
+  background: rgba(204, 251, 254, 0.6);
+}
+
+.home-divider-diamond {
+  width: 8px;
+  height: 8px;
+  background: #d97706;
+  transform: rotate(45deg);
+}
+
+.btn-cta-gold {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #d97706;
+  color: #3c0f05;
+  text-decoration: none;
+  padding: 15px 38px;
+  border-radius: 50px;
+  font-weight: 800;
+  font-size: 0.95rem;
+  box-shadow: 0 8px 28px rgba(217, 119, 6, 0.5);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn-cta-gold:hover {
+  color: #3c0f05;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 34px rgba(217, 119, 6, 0.65);
+}
+
+.btn-cta-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  border: 2px solid rgba(204, 251, 254, 0.55);
+  color: #fef3c7;
+  text-decoration: none;
+  padding: 15px 38px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: background 0.2s, transform 0.2s;
+}
+.btn-cta-ghost:hover {
+  color: #fef3c7;
+  background: rgba(204, 251, 254, 0.08);
+  transform: translateY(-2px);
+}
+
+.home-cta-dots {
+  color: rgba(204, 251, 254, 0.45);
+  font-size: 17px;
+  letter-spacing: 10px;
 }
