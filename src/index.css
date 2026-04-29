@@ -1,156 +1,340 @@
-/* La base des links */
-.nav-link {
-    font-size: 17px;
-    font-weight: 500;
-    position: relative;
-    color: #000;
-    transition: color 0.2s;
-}
-
-/* Underline animation — grows from left on hover */
-.nav-link::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -4px;
-    width: 0;
-    height: 3px;
-    background-color: #0056b3;
-    border-radius: 2px;
-    transition: width 0.3s ease-in-out;
-}
-
-/* Show underline on hover — but NOT on the dropdown toggle */
-.nav-link:not(.dropdown-toggle):hover::after {
-    width: 100%;
-}
-
-/* Active page — blue text + full underline stays visible */
-.nav-link-active {
-    color: #0056b3 !important;
-}
-.nav-link-active::after {
-    width: 100% !important;
-}
-
-/* Remove Bootstrap's default dropdown caret line */
-.nav-link.dropdown-toggle::after {
-    display: none;
-}
-
-
-/* Desktop only: open dropdown on hover */
-@media (min-width: 992px) {
-    .nav-item.dropdown:hover .dropdown-menu {
-        display: block;
-        margin-top: 4px;
-        animation: fadeDown 0.18s ease;
-    }
-}
-
-/* Subtle fade-down animation for dropdown */
-@keyframes fadeDown {
-    from { opacity: 0; transform: translateY(-6px); }
-    to   { opacity: 1; transform: translateY(0);    }
-}
-
-/* Dropdown items */
-.dropdown-item {
-    font-size: 15px;
-    font-weight: 500;
-    transition: background 0.15s, color 0.15s;
-}
-.dropdown-item:hover {
-    background: rgba(0, 86, 179, 0.08);
-    color: #0056b3;
-}
-/* Highlight active dropdown item */
-.dropdown-item.active,
-.dropdown-item:active {
-    background: #0056b3;
-    color: #fff;
-}
-/* App background pour PC */
-.App {
-    min-height: 100vh;
-    background-image: url("./assets/bgArabesque.png");
-    background-repeat: repeat;
-    background-size: 8%;
-    background-position: center;
-}
-
-/* App background pour MOBILE */
-@media (max-width: 768px) {
-    .App {
-        background-size: 26%;
-    }
-}
-
 /* ============================================================
-   FOOTER
+   INDEX.CSS — City Trans Fes
+   Styles globaux, Navbar, Footer, Home, Animations
    ============================================================ */
 
+
+/* ============================================================
+   NAVBAR — Liens de navigation
+   ============================================================ */
+
+/* Style de base des liens de la navbar */
+.nav-link {
+  font-size: 17px;
+  font-weight: 500;
+  position: relative;
+  color: #000;
+  transition: color 0.2s;
+}
+
+/* Ligne animée sous le lien — grandit depuis la gauche au survol */
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 3px;
+  background-color: #0056b3;
+  border-radius: 2px;
+  transition: width 0.3s ease-in-out;
+}
+
+/* Affiche la ligne sauf sur le bouton dropdown */
+.nav-link:not(.dropdown-toggle):hover::after {
+  width: 100%;
+}
+
+/* Lien actif : couleur bleue + ligne visible en permanence */
+.nav-link-active {
+  color: #0056b3 !important;
+}
+
+.nav-link-active::after {
+  width: 100% !important;
+}
+
+/* Supprime le pseudo-élément Bootstrap sur le bouton dropdown */
+.nav-link.dropdown-toggle::after {
+  display: none;
+}
+
+/* Ouvre le dropdown au survol sur desktop uniquement */
+@media (min-width: 992px) {
+  .nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 4px;
+  }
+}
+
+/* Items du dropdown */
+.dropdown-item {
+  font-size: 15px;
+  font-weight: 500;
+  transition: background 0.15s, color 0.15s, padding-left 0.18s;
+}
+
+.dropdown-item:hover {
+  background: rgba(0, 86, 179, 0.08);
+  color: #0056b3;
+  padding-left: 1.4rem;
+}
+
+.dropdown-item.active,
+.dropdown-item:active {
+  background: #0056b3;
+  color: #fff;
+}
+
+/* ── Animation d'entrée de la navbar au chargement ── */
+.navbar-enter {
+  animation: navbarSlideDown 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes navbarSlideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ── Apparition décalée des items de la navbar ── */
+.nav-item-stagger {
+  animation: navItemFadeIn 0.4s ease both;
+  animation-delay: calc(0.4s + var(--i) * 0.07s);
+}
+
+@keyframes navItemFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Dropdown avec animation fluide (fade + glissement) ── */
+.dropdown-animated {
+  display: block !important;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-8px) scale(0.97);
+  transition: opacity 0.22s ease, transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.dropdown-animated.show {
+  pointer-events: auto;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* ── Icône de compte : rebond au survol ── */
+.account-toggle {
+  transition: color 0.25s ease;
+}
+
+.account-icon {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.25s ease;
+}
+
+.account-toggle:hover .account-icon {
+  transform: scale(1.2) rotate(-8deg);
+  color: #0056b3;
+}
+
+
+/* ============================================================
+   FOND GLOBAL — Motif arabesque visible sur toutes les pages
+   ============================================================ */
+
+.App {
+  min-height: 100vh;
+  background-image: url("./assets/bgArabesque.png");
+  background-repeat: repeat;
+  background-size: 8%;
+  background-position: center;
+}
+
+/* Taille du motif agrandie sur mobile */
+@media (max-width: 768px) {
+  .App {
+    background-size: 26%;
+  }
+}
+
+
+/* ============================================================
+   FOOTER — Pied de page
+   ============================================================ */
+
+/* Bordure subtile en haut du footer */
 .footer-root {
-    border-top: 1px solid rgba(0, 86, 179, 0.1);
+  border-top: 1px solid rgba(0, 86, 179, 0.1);
 }
 
-/* ── Nav / text links ── */
+/* Animation d'entrée des colonnes du footer au chargement */
+.footer-col-enter {
+  animation: footerColUp 0.5s ease both;
+  animation-delay: calc(0.1s + var(--ci) * 0.12s);
+}
+
+@keyframes footerColUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Liens texte du footer */
 .footer-link {
-    color: #0056b3;
-    text-decoration: none;
-    position: relative;
-    display: inline-block;
-    transition: color 0.25s ease, transform 0.25s ease;
-    line-height: 1.8;   /* comfortable spacing between list items */
+  color: #0056b3;
+  text-decoration: none;
+  position: relative;
+  display: inline-block;
+  line-height: 1.8;
+  transition: color 0.25s ease, transform 0.25s ease;
 }
 
-/* Underline grows from left on hover */
+/* Soulignement animé */
 .footer-link::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -2px;
-    width: 0%;
-    height: 2px;
-    background-color: #0056b3;
-    border-radius: 2px;
-    transition: width 0.25s ease;
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0%;
+  height: 2px;
+  background-color: #0056b3;
+  border-radius: 2px;
+  transition: width 0.25s ease;
 }
 
 .footer-link:hover {
-    color: #003d80;
-    transform: translateY(-2px);
+  color: #003d80;
+  transform: translateY(-2px);
 }
 
 .footer-link:hover::after {
-    width: 100%;
+  width: 100%;
 }
 
-/* ── Social icon links ── */
+/* Icônes sociales — couleur de marque individuelle au survol */
 .social-link {
-    color: #555;
-    font-size: 1.35rem;
-    display: inline-flex;
-    align-items: center;
-    transition: color 0.25s ease, transform 0.25s ease;
+  color: #555;
+  font-size: 1.35rem;
+  display: inline-flex;
+  align-items: center;
+  transition: color 0.25s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: socialIconIn 0.4s ease both;
+  animation-delay: calc(0.3s + var(--si) * 0.06s);
 }
 
 .social-link:hover {
-    color: #0056b3;
-    transform: scale(1.25) translateY(-2px);
+  color: var(--brand-color, #0056b3);
+  transform: scale(1.3) translateY(-3px);
 }
+
+@keyframes socialIconIn {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
 /* ============================================================
-   HOME PAGE STYLES — Home Composnt Style
+   HOME — Animations générales au scroll
    ============================================================ */
 
-/* ── SECTION 1: HERO ── */
+/* État initial : invisible, légèrement décalé vers le bas */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Quand la section entre dans le viewport */
+.scroll-reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Glissement depuis la gauche */
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: opacity 0.6s ease 0.15s, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.15s;
+}
+
+/* Glissement depuis la droite */
+.reveal-right {
+  opacity: 0;
+  transform: translateX(30px);
+  transition: opacity 0.6s ease 0.25s, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.25s;
+}
+
+/* Montée simple */
+.reveal-up {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* Activation quand le parent .scroll-reveal devient .revealed */
+.scroll-reveal.revealed .reveal-left,
+.scroll-reveal.revealed .reveal-right,
+.scroll-reveal.revealed .reveal-up {
+  opacity: 1;
+  transform: translate(0);
+}
+
+/* Stats : apparition décalée par item */
+.stat-item {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition-delay: calc(var(--si) * 0.1s);
+}
+
+.scroll-reveal.revealed .stat-item {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Cartes de fonctionnalités : décalage en cascade */
+.feature-card-stagger {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition-delay: calc(0.1s + var(--fi) * 0.1s);
+}
+
+.scroll-reveal.revealed .feature-card-stagger {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* ============================================================
+   HOME — SECTION 1 : HÉRO
+   ============================================================ */
+
 .home-hero {
   min-height: 100vh;
   padding-top: 100px;
   padding-bottom: 60px;
-  background: transparent; /* arabesque from .App shows through */
+  background: transparent;
+  /* laisse visible l'arabesque de .App */
 }
 
+/* Voile blanc pour lisibilité */
 .home-hero-overlay {
   position: absolute;
   inset: 0;
@@ -158,6 +342,41 @@
   backdrop-filter: blur(2px);
 }
 
+/* Entrée du texte héro : glisse depuis la gauche */
+.hero-text-enter {
+  animation: heroTextIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+}
+
+@keyframes heroTextIn {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Entrée de l'image héro : glisse depuis la droite */
+.hero-image-enter {
+  animation: heroImageIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both;
+}
+
+@keyframes heroImageIn {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Badge de catégorie */
 .home-badge {
   background: rgba(0, 86, 179, 0.1);
   border: 1px solid rgba(0, 86, 179, 0.25);
@@ -170,6 +389,7 @@
   border-radius: 100px;
 }
 
+/* Titre principal du héro */
 .home-title {
   font-size: clamp(2.8rem, 5vw, 4.5rem);
   font-weight: 900;
@@ -177,6 +397,7 @@
   line-height: 1.1;
 }
 
+/* Bouton principal bleu */
 .btn-ctf-primary {
   display: inline-flex;
   align-items: center;
@@ -191,12 +412,14 @@
   box-shadow: 0 6px 20px rgba(0, 86, 179, 0.4);
   transition: box-shadow 0.2s, transform 0.2s;
 }
+
 .btn-ctf-primary:hover {
   color: #fff;
   transform: translateY(-2px);
   box-shadow: 0 10px 28px rgba(0, 86, 179, 0.5);
 }
 
+/* Bouton secondaire transparent */
 .btn-ctf-ghost {
   display: inline-flex;
   align-items: center;
@@ -211,17 +434,20 @@
   font-size: 0.95rem;
   transition: background 0.2s, transform 0.2s;
 }
+
 .btn-ctf-ghost:hover {
   color: #0056b3;
   background: rgba(255, 255, 255, 0.95);
   transform: translateY(-2px);
 }
 
+/* Image du bus */
 .home-bus-img {
   object-fit: cover;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
 }
 
+/* Badge "En Service" flottant */
 .home-live-badge {
   position: absolute;
   top: 16px;
@@ -238,14 +464,29 @@
   font-weight: 700;
 }
 
+/* Point vert animé "en direct" */
 .home-green-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
   background: #22c55e;
   display: inline-block;
+  animation: pulse-green 1.8s ease-in-out infinite;
 }
 
+@keyframes pulse-green {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.5);
+  }
+
+  50% {
+    box-shadow: 0 0 0 6px rgba(34, 197, 94, 0);
+  }
+}
+
+/* Pilule de départ en bas de l'image */
 .home-departure-pill {
   position: absolute;
   bottom: -20px;
@@ -261,6 +502,7 @@
   box-shadow: 0 6px 24px rgba(0, 86, 179, 0.1);
 }
 
+/* Icône dans la pilule */
 .home-departure-icon {
   width: 40px;
   height: 40px;
@@ -273,7 +515,11 @@
   font-size: 18px;
 }
 
-/* ── SECTION 2: STATS ── */
+
+/* ============================================================
+   HOME — SECTION 2 : BANDE DE STATISTIQUES
+   ============================================================ */
+
 .home-stats {
   background: rgba(0, 86, 179, 0.6);
 }
@@ -291,7 +537,11 @@
   text-transform: uppercase;
 }
 
-/* ── SECTIONS 3-5: shared semi-transparent bg ── */
+
+/* ============================================================
+   HOME — SECTIONS 3-5 : Fond semi-transparent partagé
+   ============================================================ */
+
 .home-section {
   background: rgba(248, 250, 255, 0.85);
   backdrop-filter: blur(3px);
@@ -312,6 +562,7 @@
   line-height: 1.15;
 }
 
+/* Étiquettes de fonctionnalités (Climatisé, WiFi…) */
 .home-tag {
   display: inline-flex;
   align-items: center;
@@ -326,6 +577,7 @@
   box-shadow: 0 2px 6px rgba(0, 86, 179, 0.07);
 }
 
+/* Carte flottante blanche (nombre de bus) */
 .home-float-card-white {
   position: absolute;
   top: 20px;
@@ -336,6 +588,7 @@
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.10);
 }
 
+/* Carte flottante bleue (note de satisfaction) */
 .home-float-card-blue {
   position: absolute;
   bottom: 24px;
@@ -358,13 +611,18 @@
   font-weight: 500;
 }
 
-/* ── SECTION 4: VIDEO ── */
+
+/* ============================================================
+   HOME — SECTION 4 : VIDÉO + AVIS
+   ============================================================ */
+
 .home-video-wrapper {
   background: #000;
   aspect-ratio: 16/9;
   box-shadow: 0 16px 50px rgba(0, 0, 0, 0.13);
 }
 
+/* Étiquette "En direct" sur la vidéo */
 .home-video-label {
   position: absolute;
   bottom: 14px;
@@ -381,14 +639,29 @@
   gap: 7px;
 }
 
+/* Point rouge animé */
 .home-red-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
   background: #ef4444;
   display: inline-block;
+  animation: pulse-red 1.8s ease-in-out infinite;
 }
 
+@keyframes pulse-red {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5);
+  }
+
+  50% {
+    box-shadow: 0 0 0 6px rgba(239, 68, 68, 0);
+  }
+}
+
+/* Panneau d'avis */
 .home-rating-panel {
   background: rgba(255, 255, 255, 0.92);
   border: 1px solid rgba(0, 86, 179, 0.1);
@@ -401,6 +674,7 @@
   line-height: 1;
 }
 
+/* Carte d'un avis individuel */
 .home-review-card {
   background: #f8faff;
   border: 1px solid #e2ecfa;
@@ -408,7 +682,11 @@
   padding: 11px 14px;
 }
 
-/* ── SECTION 5: FEATURE CARDS ── */
+
+/* ============================================================
+   HOME — SECTION 5 : CARTES DE FONCTIONNALITÉS
+   ============================================================ */
+
 .home-feature-card {
   background: rgba(248, 250, 255, 0.9);
   border: 1px solid #dde8f8;
@@ -418,18 +696,23 @@
   cursor: default;
 }
 
+/* Effet de survol : élévation + ombre */
 .home-feature-card--hovered {
   background: #fff;
   transform: translateY(-6px);
   box-shadow: 0 16px 40px rgba(0, 86, 179, 0.12);
 }
 
-/* ── SECTION 6: CTA ZELLIGE ── */
+
+/* ============================================================
+   HOME — SECTION 6 : BANNIÈRE CTA ZELLIGE
+   ============================================================ */
+
 .home-cta {
   padding: 110px 0;
 }
 
-/* Zellige image fills the whole section */
+/* Image de fond plein cadre */
 .home-cta-bg {
   position: absolute;
   inset: 0;
@@ -439,8 +722,15 @@
   object-position: center;
   display: block;
   z-index: 0;
+  /* Zoom léger au scroll-reveal */
+  transition: transform 1s ease;
 }
 
+.scroll-reveal.revealed .home-cta-bg {
+  transform: scale(1.03);
+}
+
+/* Voile sombre sur l'image de fond */
 .home-cta-overlay {
   position: absolute;
   inset: 0;
@@ -448,7 +738,7 @@
   z-index: 1;
 }
 
-/* Moorish arch decorations */
+/* Arches mauresques décoratives */
 .home-arch {
   position: absolute;
   left: 50%;
@@ -458,18 +748,20 @@
   border: 2px solid rgba(204, 251, 254, 0.4);
   z-index: 2;
 }
+
 .home-arch--top {
   top: 0;
   border-top: none;
   border-radius: 0 0 160px 160px;
 }
+
 .home-arch--bottom {
   bottom: 0;
   border-bottom: none;
   border-radius: 160px 160px 0 0;
 }
 
-/* Corner diamonds */
+/* Diamants aux quatre coins */
 .home-diamond {
   position: absolute;
   width: 52px;
@@ -478,21 +770,37 @@
   transform: rotate(45deg);
   z-index: 2;
 }
-.home-diamond--tl { top: 18px;    left: 18px;  }
-.home-diamond--tr { top: 18px;    right: 18px; }
-.home-diamond--bl { bottom: 18px; left: 18px;  }
-.home-diamond--br { bottom: 18px; right: 18px; }
 
-/* CTA text */
+.home-diamond--tl {
+  top: 18px;
+  left: 18px;
+}
+
+.home-diamond--tr {
+  top: 18px;
+  right: 18px;
+}
+
+.home-diamond--bl {
+  bottom: 18px;
+  left: 18px;
+}
+
+.home-diamond--br {
+  bottom: 18px;
+  right: 18px;
+}
+
+/* Étoiles décoratives */
 .home-cta-stars {
   color: rgba(204, 251, 254, 0.7);
   font-size: 20px;
   letter-spacing: 10px;
 }
 
+/* Sous-titre doré */
 .home-cta-subtitle {
   color: #d97706;
-  font-family: 'Playfair Display', serif;
   font-size: 13px;
   letter-spacing: 4px;
   text-transform: uppercase;
@@ -500,6 +808,7 @@
   padding-bottom: 7px;
 }
 
+/* Titre principal de la CTA */
 .home-cta-title {
   font-size: clamp(2.4rem, 5vw, 4rem);
   font-weight: 900;
@@ -512,6 +821,7 @@
   font-style: italic;
 }
 
+/* Description */
 .home-cta-desc {
   color: rgba(254, 243, 199, 0.72);
   font-size: 1.05rem;
@@ -519,6 +829,7 @@
   line-height: 1.9;
 }
 
+/* Séparateur doré */
 .home-divider-line {
   height: 1px;
   width: 80px;
@@ -532,6 +843,7 @@
   transform: rotate(45deg);
 }
 
+/* Bouton doré CTA */
 .btn-cta-gold {
   display: inline-flex;
   align-items: center;
@@ -546,12 +858,14 @@
   box-shadow: 0 8px 28px rgba(217, 119, 6, 0.5);
   transition: transform 0.2s, box-shadow 0.2s;
 }
+
 .btn-cta-gold:hover {
   color: #3c0f05;
   transform: translateY(-2px);
   box-shadow: 0 12px 34px rgba(217, 119, 6, 0.65);
 }
 
+/* Bouton transparent CTA */
 .btn-cta-ghost {
   display: inline-flex;
   align-items: center;
@@ -566,14 +880,399 @@
   font-size: 0.95rem;
   transition: background 0.2s, transform 0.2s;
 }
+
 .btn-cta-ghost:hover {
   color: #fef3c7;
   background: rgba(204, 251, 254, 0.08);
   transform: translateY(-2px);
 }
 
+/* Points décoratifs bas de section */
 .home-cta-dots {
   color: rgba(204, 251, 254, 0.45);
   font-size: 17px;
   letter-spacing: 10px;
+}
+/* ============================================================
+   CONTACT PAGE — Page de contact et abonnement
+   ============================================================ */
+
+
+/* ── Conteneur de page ── */
+.contact-page {
+  min-height: 100vh;
+}
+
+
+/* ── HÉRO : En-tête de la page contact ── */
+.contact-hero {
+  min-height: 38vh;
+  padding-top: 110px;
+  padding-bottom: 50px;
+  background: transparent;
+}
+
+/* Voile semi-transparent pour lisibilité */
+.contact-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(3px);
+}
+
+/* Icône décorative dans le héro */
+.contact-hero-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  background: #0056b3;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  box-shadow: 0 8px 24px rgba(0, 86, 179, 0.35);
+  animation: heroIconBounce 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
+}
+
+@keyframes heroIconBounce {
+  from {
+    transform: scale(0.4) rotate(-15deg);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+/* Titre du héro */
+.contact-hero-title {
+  font-size: clamp(2.2rem, 4vw, 3.5rem);
+  font-weight: 900;
+  color: #0a0f1e;
+  line-height: 1.1;
+  animation: heroTextIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+}
+
+/* Sous-titre du héro */
+.contact-hero-subtitle {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.8;
+  max-width: 520px;
+  margin: 12px auto 20px;
+  animation: heroTextIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.4s both;
+}
+
+/* Séparateur décoratif doré */
+.contact-divider-line {
+  height: 1px;
+  width: 60px;
+  background: rgba(0, 86, 179, 0.3);
+}
+
+.contact-divider-diamond {
+  width: 7px;
+  height: 7px;
+  background: #0056b3;
+  transform: rotate(45deg);
+}
+
+
+/* ── CORPS : fond de la section formulaire ── */
+.contact-body {
+  background: rgba(248, 250, 255, 0.85);
+  backdrop-filter: blur(3px);
+}
+
+
+/* ── CARTE DU FORMULAIRE ── */
+.contact-form-card {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(0, 86, 179, 0.1);
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 0 12px 48px rgba(0, 86, 179, 0.08);
+}
+
+/* Titre du formulaire */
+.contact-form-title {
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: #0a0f1e;
+}
+
+
+/* ── CHAMPS DU FORMULAIRE ── */
+
+/* Conteneur d'un champ */
+.contact-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Label du champ */
+.contact-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1e3a5f;
+  letter-spacing: 0.3px;
+  display: flex;
+  align-items: center;
+}
+
+/* Input / select / textarea de base */
+.contact-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid #dde8f8;
+  border-radius: 12px;
+  font-size: 14px;
+  color: #1e3a5f;
+  background: #f8faff;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  font-family: inherit;
+}
+
+.contact-input:focus {
+  border-color: #0056b3;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(0, 86, 179, 0.08);
+}
+
+.contact-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Variante erreur */
+.contact-input--error {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1) !important;
+}
+
+/* Textarea : hauteur fixe sans redimensionnement horizontal */
+.contact-textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* Select : retire la flèche native et ajoute un curseur */
+.contact-select {
+  cursor: pointer;
+}
+
+/* Message d'erreur sous un champ */
+.contact-error-msg {
+  font-size: 12px;
+  color: #ef4444;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+}
+
+
+/* ── CASE À COCHER ABONNEMENT ── */
+.contact-subscribe-row {
+  background: rgba(0, 86, 179, 0.04);
+  border: 1px solid rgba(0, 86, 179, 0.12);
+  border-radius: 14px;
+  padding: 14px 16px;
+}
+
+/* Label cliquable de toute la ligne */
+.contact-subscribe-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+  margin: 0;
+}
+
+/* Texte d'abonnement */
+.contact-subscribe-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.contact-subscribe-desc {
+  font-size: 12px;
+  color: #777;
+}
+
+/* Checkbox stylée */
+.contact-checkbox {
+  width: 18px;
+  height: 18px;
+  accent-color: #0056b3;
+  cursor: pointer;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+
+/* ── BOUTON DE SOUMISSION ── */
+.contact-submit-btn {
+  font-size: 1rem;
+  padding: 14px 28px;
+  border: none;
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.2s, opacity 0.2s;
+}
+
+.contact-submit-btn:disabled {
+  opacity: 0.75;
+  transform: none !important;
+  cursor: not-allowed;
+}
+
+/* Spinner de chargement */
+.contact-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  display: inline-block;
+  animation: spin 0.7s linear infinite;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* ── ÉTAT SUCCÈS ── */
+.contact-success-state {
+  animation: successPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes successPop {
+  from {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.contact-success-icon {
+  animation: successIconSpin 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both;
+}
+
+@keyframes successIconSpin {
+  from {
+    transform: scale(0) rotate(-90deg);
+  }
+
+  to {
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+/* Confirmation de l'abonnement */
+.contact-subscribe-confirm {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(0, 86, 179, 0.08);
+  border: 1px solid rgba(0, 86, 179, 0.2);
+  border-radius: 100px;
+  padding: 7px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #0056b3;
+}
+
+
+/* ── ÉTAT ERREUR ── */
+.contact-error-state {
+  animation: successPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+
+/* ── COLONNE D'INFORMATIONS ── */
+.contact-info-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Carte d'info individuelle */
+.contact-info-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(0, 86, 179, 0.1);
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 4px 18px rgba(0, 86, 179, 0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.contact-info-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 32px rgba(0, 86, 179, 0.12);
+}
+
+/* Icône dans la carte d'info */
+.contact-info-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #0056b3;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Titre et texte de la carte d'info */
+.contact-info-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0056b3;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.contact-info-text {
+  font-size: 14px;
+  color: #444;
+  line-height: 1.6;
+}
+
+/* Animation décalée des cartes d'info */
+.contact-info-stagger {
+  opacity: 0;
+  transform: translateX(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition-delay: calc(var(--ii) * 0.1s);
+}
+
+.scroll-reveal.revealed .contact-info-stagger {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Encart newsletter en bas de la colonne infos */
+.contact-newsletter-box {
+  background: linear-gradient(135deg, #0056b3, #003d80);
+  color: #fff;
+  border-radius: 18px;
+  padding: 24px 20px;
+  box-shadow: 0 8px 28px rgba(0, 86, 179, 0.35);
 }

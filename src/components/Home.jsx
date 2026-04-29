@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowRightCircleFill,
@@ -14,55 +14,74 @@ import {
   Wifi,
   Leaf,
 } from "react-bootstrap-icons";
-import "../index.css"; /* home-specific styles are at the bottom of this file */
+import "../index.css";
+
+/* ── Hook personnalisé : déclenche une classe quand l'élément entre dans le viewport ── */
+function useScrollReveal(threshold = 0.15) {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setVisible(true); },
+      { threshold }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [threshold]);
+
+  return [ref, visible];
+}
 
 export default function Home() {
 
+  /* État hover pour les cartes de fonctionnalités */
   const [hoveredCard, setHoveredCard] = useState(null);
+
+  /* Refs pour les animations au scroll de chaque section */
+  const [statsRef,    statsVisible]    = useScrollReveal();
+  const [aboutRef,    aboutVisible]    = useScrollReveal();
+  const [videoRef,    videoVisible]    = useScrollReveal();
+  const [featuresRef, featuresVisible] = useScrollReveal();
+  const [ctaRef,      ctaVisible]      = useScrollReveal(0.1);
 
   return (
     <div>
 
-      {/* Google Fonts */}
-      <link
-        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
-        rel="stylesheet"
-      />
-
       {/* ====================================================
-          SECTION 1 — HERO
+          SECTION 1 — HÉRO
+          Animation d'entrée : les éléments glissent depuis le bas
       ==================================================== */}
       <section className="home-hero d-flex align-items-center position-relative">
 
-        {/* White glass wash — arabesque bg still visible behind */}
+        {/* Voile blanc semi-transparent — laisse visible l'arabesque derrière */}
         <div className="home-hero-overlay" />
 
         <div className="container position-relative" style={{ zIndex: 1 }}>
           <div className="row align-items-center g-5">
 
-            {/* Left: title + buttons */}
-            <div className="col-lg-5">
+            {/* ── Colonne gauche : titre + boutons ── */}
+            <div className="col-lg-5 hero-text-enter">
 
-              {/* Badge */}
+              {/* Badge de catégorie */}
               <span className="home-badge mb-3 d-inline-block">
-                <BusFrontFill className="me-2" /> Transport Urbain - FES
+                <BusFrontFill className="me-2" /> Transport Urbain - ISSAL FES
               </span>
 
-              {/* Title */}
+              {/* Titre principal */}
               <h1 className="home-title mb-3">
                 Voyagez <span className="text-primary">Mieux</span>,<br />
                 Se Déplacer <span className="text-primary">Mieux</span>.<br />
                 Connectez‑vous<br />à Fès.
               </h1>
 
-              {/* Description */}
+              {/* Description courte */}
               <p className="text-secondary fs-6 lh-lg mb-4">
-                City Trans Fes modernise le transport public — bus, tram
-                et transport scolaire — pour une mobilité fluide, sûre
+                City Trans Fes modernise le transport public — BUS — pour une mobilité fluide, sûre
                 et accessible à tous les habitants de Fès.
               </p>
 
-              {/* Buttons */}
+              {/* Boutons d'action */}
               <div className="d-flex flex-wrap gap-3">
                 <Link to="/Tickets" className="btn-ctf-primary">
                   Acheter un Ticket <ArrowRightCircleFill />
@@ -71,27 +90,26 @@ export default function Home() {
                   En Savoir Plus
                 </Link>
               </div>
-
             </div>
 
-            {/* Right: bus image */}
-            <div className="col-lg-7">
+            {/* ── Colonne droite : photo du bus + badges flottants ── */}
+            <div className="col-lg-7 hero-image-enter">
               <div className="position-relative">
 
-                {/* Main bus photo */}
+                {/* Photo principale du bus */}
                 <img
                   src="busfes2.webp"
                   alt="Bus City Trans Fes"
                   className="w-100 rounded-4 d-block home-bus-img"
                 />
 
-                {/* "En Service" badge */}
+                {/* Badge "En Service" en haut à droite */}
                 <div className="home-live-badge">
                   <span className="home-green-dot" />
                   En Service
                 </div>
 
-                {/* Departure pill */}
+                {/* Pilule de départ en bas à gauche */}
                 <div className="home-departure-pill">
                   <div className="home-departure-icon">
                     <BusFrontFill />
@@ -113,31 +131,39 @@ export default function Home() {
 
 
       {/* ====================================================
-          SECTION 2 — STATS BAND
+          SECTION 2 — BANDE DE STATISTIQUES
+          Révélation au scroll avec comptage animé
       ==================================================== */}
-      <section className="home-stats py-5">
+      <section
+        ref={statsRef}
+        className={`home-stats py-5 scroll-reveal ${statsVisible ? "revealed" : ""}`}
+      >
         <div className="container">
           <div className="row g-3 text-center text-white">
 
-            <div className="col-6 col-md-3">
+            {/* Stat : Autobus actifs */}
+            <div className="col-6 col-md-3 stat-item" style={{ "--si": 1 }}>
               <div className="fs-3 mb-2"><BusFrontFill /></div>
               <div className="home-stat-number">120+</div>
               <div className="home-stat-label">Autobus Actifs</div>
             </div>
 
-            <div className="col-6 col-md-3">
+            {/* Stat : Lignes couvertes */}
+            <div className="col-6 col-md-3 stat-item" style={{ "--si": 2 }}>
               <div className="fs-3 mb-2"><GeoAltFill /></div>
               <div className="home-stat-number">65</div>
               <div className="home-stat-label">Lignes Couvertes</div>
             </div>
 
-            <div className="col-6 col-md-3">
+            {/* Stat : Passagers par jour */}
+            <div className="col-6 col-md-3 stat-item" style={{ "--si": 3 }}>
               <div className="fs-3 mb-2"><PeopleFill /></div>
               <div className="home-stat-number">50K+</div>
               <div className="home-stat-label">Passagers / Jour</div>
             </div>
 
-            <div className="col-6 col-md-3">
+            {/* Stat : Heures de service */}
+            <div className="col-6 col-md-3 stat-item" style={{ "--si": 4 }}>
               <div className="fs-3 mb-2"><ClockFill /></div>
               <div className="home-stat-number">18H</div>
               <div className="home-stat-label">Service Quotidien</div>
@@ -149,14 +175,18 @@ export default function Home() {
 
 
       {/* ====================================================
-          SECTION 3 — ABOUT BUS
+          SECTION 3 — À PROPOS DE LA FLOTTE
+          Révélation au scroll : texte depuis gauche, image depuis droite
       ==================================================== */}
-      <section className="home-section py-5">
+      <section
+        ref={aboutRef}
+        className={`home-section py-5 scroll-reveal ${aboutVisible ? "revealed" : ""}`}
+      >
         <div className="container py-4">
           <div className="row align-items-center g-5">
 
-            {/* Left: text */}
-            <div className="col-lg-5">
+            {/* ── Colonne gauche : texte descriptif ── */}
+            <div className="col-lg-5 reveal-left">
               <span className="home-section-label">Notre Flotte</span>
               <h2 className="home-section-title mt-2 mb-3">
                 Des Bus Modernes<br />pour Fès
@@ -172,7 +202,7 @@ export default function Home() {
                 <strong>8 minutes</strong> aux heures de pointe.
               </p>
 
-              {/* Feature tags */}
+              {/* Étiquettes de fonctionnalités */}
               <div className="d-flex flex-wrap gap-2">
                 {[
                   [<ThermometerSnow />, "Climatisé"],
@@ -187,25 +217,25 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right: bus image + floating cards */}
-            <div className="col-lg-7">
+            {/* ── Colonne droite : photo + cartes flottantes ── */}
+            <div className="col-lg-7 reveal-right">
               <div className="position-relative">
 
-                {/* Second bus photo */}
+                {/* Photo secondaire du bus */}
                 <img
                   src="busfes1.webp"
                   alt="Bus City Trans Fes vue de côté"
                   className="w-100 rounded-4 d-block home-bus-img"
                 />
 
-                {/* Floating card — fleet count */}
+                {/* Carte flottante : nombre de bus */}
                 <div className="home-float-card-white">
                   <div className="text-primary fs-5 mb-1"><BusFrontFill /></div>
                   <div className="home-float-number text-primary">120+</div>
                   <div className="home-float-label">Autobus en flotte</div>
                 </div>
 
-                {/* Floating card — satisfaction */}
+                {/* Carte flottante : note de satisfaction */}
                 <div className="home-float-card-blue">
                   <div className="text-warning fs-5 mb-1">
                     <StarFill /><StarFill /><StarFill /><StarFill /><StarHalf />
@@ -223,22 +253,28 @@ export default function Home() {
 
 
       {/* ====================================================
-          SECTION 4 — VIDEO + RATING
+          SECTION 4 — VIDÉO + PANNEAU D'AVIS
+          Révélation au scroll : montée depuis le bas
       ==================================================== */}
-      <section className="home-section py-5">
+      <section
+        ref={videoRef}
+        className={`home-section py-5 scroll-reveal ${videoVisible ? "revealed" : ""}`}
+      >
         <div className="container pb-4">
           <div className="row align-items-stretch g-4">
 
-            {/* Left: video */}
-            <div className="col-lg-7">
+            {/* ── Colonne gauche : lecteur vidéo ── */}
+            <div className="col-lg-7 reveal-left">
               <div className="home-video-wrapper position-relative rounded-4 overflow-hidden">
-                {/* Replace src with your video — or use a YouTube <iframe> */}
+
+                {/* Vidéo en lecture automatique, muette et en boucle */}
                 <video
                   src="yutong.mp4"
                   autoPlay muted loop playsInline
                   className="w-100 h-100 object-fit-cover d-block"
                 />
-                {/* Video label */}
+
+                {/* Étiquette "En direct" */}
                 <div className="home-video-label">
                   <span className="home-red-dot" />
                   Nos City Bus
@@ -246,14 +282,14 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right: rating panel */}
-            <div className="col-lg-5 d-flex flex-column">
+            {/* ── Colonne droite : panneau de notation ── */}
+            <div className="col-lg-5 d-flex flex-column reveal-right">
               <div className="home-rating-panel flex-fill p-4 rounded-4">
 
-                {/* Global score */}
+                {/* Score global */}
                 <div className="d-flex align-items-center gap-4 pb-3 mb-3 border-bottom">
 
-                  {/* Big score number */}
+                  {/* Grand chiffre de note */}
                   <div className="text-center" style={{ minWidth: 80 }}>
                     <div className="home-big-score text-primary">4.7</div>
                     <div className="text-warning" style={{ fontSize: 14 }}>
@@ -262,7 +298,7 @@ export default function Home() {
                     <div className="text-secondary" style={{ fontSize: 10, marginTop: 4 }}>sur 5 · 1 240 avis</div>
                   </div>
 
-                  {/* Star bars */}
+                  {/* Barres par étoile */}
                   <div className="flex-fill">
                     {[
                       { star: 5, pct: 68 },
@@ -281,15 +317,14 @@ export default function Home() {
                       </div>
                     ))}
                   </div>
-
                 </div>
 
-                {/* Reviews label */}
+                {/* Titre des avis récents */}
                 <h6 className="fw-bold text-uppercase mb-3" style={{ fontSize: 12, letterSpacing: 1.5 }}>
                   Avis Récents
                 </h6>
 
-                {/* Review 1 */}
+                {/* Avis 1 */}
                 <div className="home-review-card mb-2">
                   <div className="d-flex justify-content-between align-items-center mb-1">
                     <span className="fw-bold" style={{ fontSize: 13, color: "#1e3a5f" }}>Mehdi S.</span>
@@ -300,10 +335,10 @@ export default function Home() {
                   </p>
                 </div>
 
-                {/* Review 2 */}
+                {/* Avis 2 */}
                 <div className="home-review-card mb-2">
                   <div className="d-flex justify-content-between align-items-center mb-1">
-                    <span className="fw-bold" style={{ fontSize: 13, color: "#1e3a5f" }}>Karim B.</span>
+                    <span className="fw-bold" style={{ fontSize: 13, color: "#1e3a5f" }}>Abderahmane F.</span>
                     <span className="text-warning" style={{ fontSize: 12 }}><StarFill /><StarFill /><StarFill /><StarHalf /></span>
                   </div>
                   <p className="mb-0 text-secondary" style={{ fontSize: 12, lineHeight: 1.6 }}>
@@ -311,10 +346,10 @@ export default function Home() {
                   </p>
                 </div>
 
-                {/* Review 3 */}
+                {/* Avis 3 */}
                 <div className="home-review-card">
                   <div className="d-flex justify-content-between align-items-center mb-1">
-                    <span className="fw-bold" style={{ fontSize: 13, color: "#1e3a5f" }}>Nadia M.</span>
+                    <span className="fw-bold" style={{ fontSize: 13, color: "#1e3a5f" }}>Mohammed Sa.</span>
                     <span className="text-warning" style={{ fontSize: 12 }}><StarFill /><StarFill /><StarFill /><StarFill /><StarHalf /></span>
                   </div>
                   <p className="mb-0 text-secondary" style={{ fontSize: 12, lineHeight: 1.6 }}>
@@ -331,13 +366,17 @@ export default function Home() {
 
 
       {/* ====================================================
-          SECTION 5 — FEATURES GRID
+          SECTION 5 — GRILLE DE FONCTIONNALITÉS
+          Les cartes apparaissent en décalé au scroll
       ==================================================== */}
-      <section className="home-section py-5">
+      <section
+        ref={featuresRef}
+        className={`home-section py-5 scroll-reveal ${featuresVisible ? "revealed" : ""}`}
+      >
         <div className="container py-3">
 
-          {/* Header */}
-          <div className="text-center mb-5">
+          {/* En-tête de section */}
+          <div className="text-center mb-5 reveal-up">
             <span className="home-section-label">Pourquoi Nous Choisir</span>
             <h2 className="home-section-title mt-2">Un Service d'Excellence</h2>
           </div>
@@ -349,7 +388,8 @@ export default function Home() {
               { icon: <GeoAltFill size={26} />,       title: "Couverture Totale",  desc: "Du centre-ville aux quartiers périphériques, toute Fès est connectée." },
               { icon: <StarFill size={26} />,         title: "Confort Moderne",    desc: "Bus climatisés, accessibles PMR, avec WiFi à bord sur les lignes principales." },
             ].map((card, i) => (
-              <div key={i} className="col-sm-6 col-lg-3">
+              /* Chaque carte entre avec un délai décalé */
+              <div key={i} className="col-sm-6 col-lg-3 feature-card-stagger" style={{ "--fi": i }}>
                 <div
                   className={`home-feature-card h-100 ${hoveredCard === i ? "home-feature-card--hovered" : ""}`}
                   onMouseEnter={() => setHoveredCard(i)}
@@ -368,36 +408,31 @@ export default function Home() {
 
 
       {/* ====================================================
-          SECTION 6 — CTA BANNER (Zellige style)
-
-          Put your zellige photo at: public/zellige.jpg
-          Change src="zellige.jpg" to your filename.
+          SECTION 6 — BANNIÈRE CTA ZELLIGE
+          Révélation au scroll avec zoom léger sur l'image de fond
       ==================================================== */}
-      <section className="home-cta position-relative text-center overflow-hidden">
+      <section
+        ref={ctaRef}
+        className={`home-cta position-relative text-center overflow-hidden scroll-reveal ${ctaVisible ? "revealed" : ""}`}
+      >
 
-        {/* Zellige background image — replace src with your photo */}
-        <img
-          src="zellige.jpg"
-          alt=""
-          className="home-cta-bg"
-        />
+        {/* Image de fond zellige */}
+        <img src="zellige.jpg" alt="" className="home-cta-bg" />
 
-        {/* Dark overlay on top of the image */}
+        {/* Voile sombre sur l'image */}
         <div className="home-cta-overlay" />
 
-        {/* Moorish arch — top */}
+        {/* Décorations : arches mauresques haut et bas */}
         <div className="home-arch home-arch--top" />
-
-        {/* Moorish arch — bottom */}
         <div className="home-arch home-arch--bottom" />
 
-        {/* Corner diamonds */}
+        {/* Décorations : diamants aux coins */}
         <div className="home-diamond home-diamond--tl" />
         <div className="home-diamond home-diamond--tr" />
         <div className="home-diamond home-diamond--bl" />
         <div className="home-diamond home-diamond--br" />
 
-        {/* Text content */}
+        {/* Contenu textuel */}
         <div className="container position-relative py-5" style={{ zIndex: 3 }}>
 
           <div className="home-cta-stars mb-3">✦ ✦ ✦</div>
@@ -416,14 +451,14 @@ export default function Home() {
             vous transporte avec élégance et fiabilité.
           </p>
 
-          {/* Gold divider */}
+          {/* Séparateur doré */}
           <div className="d-flex align-items-center justify-content-center gap-3 mb-4">
             <div className="home-divider-line" />
             <div className="home-divider-diamond" />
             <div className="home-divider-line" />
           </div>
 
-          {/* Buttons */}
+          {/* Boutons d'action */}
           <div className="d-flex justify-content-center flex-wrap gap-3">
             <Link to="/Tickets" className="btn-cta-gold">
               Acheter un Ticket <ArrowRightCircleFill />
