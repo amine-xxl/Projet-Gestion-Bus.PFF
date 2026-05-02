@@ -269,7 +269,7 @@ export default function Home() {
 
                 {/* Vidéo en lecture automatique, muette et en boucle */}
                 <video
-                  src="yutong.mp4"
+                  src="yutongvid.mp4"
                   autoPlay muted loop playsInline
                   className="w-100 h-100 object-fit-cover d-block"
                 />

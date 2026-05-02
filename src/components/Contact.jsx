@@ -264,7 +264,7 @@ export default function Contact() {
                         name="name"
                         value={form.name}
                         onChange={handleChange}
-                        placeholder="Ex : Mohammed Amine"
+                        placeholder="Ex : Mehdi Amine"
                         className={`contact-input ${errors.name ? "contact-input--error" : ""}`}
                         disabled={status === "loading"}
                         aria-describedby={
@@ -295,7 +295,7 @@ export default function Contact() {
                         name="email"
                         value={form.email}
                         onChange={handleChange}
-                        placeholder="Ex : amine@email.com"
+                        placeholder="Ex : aminemehdi@email.com"
                         className={`contact-input ${errors.email ? "contact-input--error" : ""}`}
                         disabled={status === "loading"}
                       />
