@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar"
 import Footer from './components/Footer'
 import "./index.css"
 import Home from './components/Home'
+import News from './components/News'
 import Contact from './components/Contact'
 import { Route, Routes } from 'react-router-dom'
 
@@ -13,6 +14,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/news" element={<News />} />
       </Routes>
       <Footer />
     </div>
