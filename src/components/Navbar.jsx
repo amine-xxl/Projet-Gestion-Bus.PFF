@@ -9,7 +9,7 @@ import {
   PersonPlusFill,
 } from "react-bootstrap-icons";
 
-export default function Navbar() {
+export default function Navbar({ openLogin }) {
   const collapseRef = useRef(null);
   const togglerRef = useRef(null);
 
@@ -32,6 +32,7 @@ export default function Navbar() {
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary fixed-top shadow p-2 navbar-enter">
       <div className="container-fluid">
+
         {/* Logo */}
         <NavLink to="/" className="navbar-brand">
           <img src={logo} alt="City Trans Fes" width="60" height="60" />
@@ -57,67 +58,68 @@ export default function Navbar() {
           id="navbarNav"
           ref={collapseRef}
         >
-          {/* Left side */}
+
+          {/* Left */}
           <ul className="navbar-nav me-auto">
-            <li className="nav-item nav-item-stagger" style={{ "--i": 1 }}>
+            <li className="nav-item" style={{ "--i": 1 }}>
               <NavLink to="/" className={navClass} onClick={closeMenu}>
                 Home
               </NavLink>
             </li>
 
-            <li className="nav-item nav-item-stagger" style={{ "--i": 2 }}>
+            <li className="nav-item" style={{ "--i": 2 }}>
               <NavLink to="/Tickets" className={navClass} onClick={closeMenu}>
                 Tickets
               </NavLink>
             </li>
 
-            <li className="nav-item nav-item-stagger" style={{ "--i": 3 }}>
+            <li className="nav-item" style={{ "--i": 3 }}>
               <NavLink to="/News" className={navClass} onClick={closeMenu}>
                 News
               </NavLink>
             </li>
 
-            <li className="nav-item nav-item-stagger" style={{ "--i": 4 }}>
+            <li className="nav-item" style={{ "--i": 4 }}>
               <NavLink to="/Contact" className={navClass} onClick={closeMenu}>
                 Contact
               </NavLink>
             </li>
 
-            {/* About (now normal link) */}
-            <li className="nav-item nav-item-stagger" style={{ "--i": 5 }}>
+            <li className="nav-item" style={{ "--i": 5 }}>
               <NavLink to="/About" className={navClass} onClick={closeMenu}>
                 About
               </NavLink>
             </li>
           </ul>
 
-          {/* Right side */}
-          <ul
-            className="navbar-nav ms-auto align-items-lg-center nav-item-stagger"
-            style={{ "--i": 6 }}
-          >
+          {/* Right */}
+          <ul className="navbar-nav ms-auto align-items-lg-center">
             <li className="nav-item dropdown">
+
               <span
                 className="nav-link dropdown-toggle mx-2 account-toggle"
                 role="button"
                 data-bs-toggle="dropdown"
-                aria-expanded="false"
-                tabIndex="0"
               >
-                <PersonCircle size={22} className="account-icon" />
-                <span className="d-lg-none ms-2">Account</span>
+                <PersonCircle size={22} />
               </span>
 
-              <ul className="dropdown-menu dropdown-menu-end dropdown-animated">
+              <ul className="dropdown-menu dropdown-menu-end">
+
+                {/* 🔥 Login popup بدل route */}
                 <li>
-                  <NavLink
-                    to="/Login"
+                  <button
                     className="dropdown-item d-flex align-items-center gap-2"
-                    onClick={closeMenu}
+                    onClick={() => {
+                      openLogin();
+                      closeMenu();
+                    }}
                   >
                     <BoxArrowInRight className="text-primary" /> Login
-                  </NavLink>
+                  </button>
                 </li>
+
+                {/* Register خليه route عادي */}
                 <li>
                   <NavLink
                     to="/Register"
@@ -127,9 +129,11 @@ export default function Navbar() {
                     <PersonPlusFill className="text-success" /> Register
                   </NavLink>
                 </li>
+
               </ul>
             </li>
           </ul>
+
         </div>
       </div>
     </nav>
